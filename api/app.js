@@ -2,20 +2,24 @@ var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var logger = require("morgan");
-
+var compression = require("compression");
+// Private key for Unsplash
 const apiKey = require("./config.js");
 const axios = require("axios");
 const cors = require("cors");
 
 var app = express();
 
-// enables all CORS requests
+// Enables all CORS requests
 app.use(cors());
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
+
+// Compresses all routes
+app.use(compression());
 
 app.get("/", (req, res, next) => {
   res.status(200).json({
@@ -24,22 +28,26 @@ app.get("/", (req, res, next) => {
 });
 
 app.get("/api/:query", (req, res, next) => {
-  const query = req.params.query;
+  try {
+    // Gets search query.
+    const query = req.params.query;
 
-  axios
-    .get("https://api.unsplash.com/search/photos/", {
-      params: {
-        client_id: apiKey,
-        query: query,
-        per_page: 24
-      }
-    })
-    .then(result => {
-      res.send(result.data);
-    })
-    .catch(error => {
-      next(error);
-    });
+    // Unsplash limits developer API requests to 50 per hour.
+
+    axios
+      .get("https://api.unsplash.com/search/photos/", {
+        params: {
+          client_id: apiKey,
+          query: query,
+          per_page: 24
+        }
+      })
+      .then(result => {
+        res.send(result.data);
+      });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // catch 404 and forward to error handler
