@@ -1,4 +1,4 @@
-# Project 7 v2: React Gallery App with REST API (Tech Degree)
+# Project 7: React Gallery App with REST API (Tech Degree)
 
 ## Description
 
