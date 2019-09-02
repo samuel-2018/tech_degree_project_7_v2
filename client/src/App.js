@@ -6,7 +6,11 @@ import Nav from "./Components/Nav";
 import PhotoContainer from "./Components/PhotoContainer";
 import Error from "./Components/Error";
 import axios from "axios";
+
+// Use if calling Unsplash directly.
+// Config file would need modified.
 // import apiKey from "./config.js";
+
 import Photos from "./Components/Photos";
 
 // Base URL: config.apiBaseUrl
@@ -57,9 +61,8 @@ class App extends Component {
     // Unsplash limits developer API requests to 50 per hour.
 
     setTimeout(() => {
-      // console.log("API Request will run.");
-
       // OLD VERSION
+      // Use if calling Unsplash directly.
       // axios
       //   .get("https://api.unsplash.com/search/photos/", {
       //     params: {
