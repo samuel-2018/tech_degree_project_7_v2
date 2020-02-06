@@ -35,6 +35,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // Load topics
     this.handleTopics();
   }
 
